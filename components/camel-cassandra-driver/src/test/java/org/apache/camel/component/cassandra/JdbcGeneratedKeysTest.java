@@ -36,7 +36,7 @@ public class JdbcGeneratedKeysTest extends JdbcRouteTest {
         Exchange exchange = endpoint.createExchange();
         // then we set the SQL on the in body
         exchange.getIn().setBody("insert into tableWithAutoIncr (content) values ('value2')");
-        exchange.getIn().setHeader(JdbcConstants.JDBC_RETRIEVE_GENERATED_KEYS, true);
+        exchange.getIn().setHeader(CassandraConstants.JDBC_RETRIEVE_GENERATED_KEYS, true);
 
         // now we send the exchange to the endpoint, and receives the response from Camel
         Exchange out = template.send(endpoint, exchange);
@@ -44,10 +44,10 @@ public class JdbcGeneratedKeysTest extends JdbcRouteTest {
         // assertions of the response
         assertNotNull(out);
         assertNotNull(out.getOut());
-        assertNotNull(out.getOut().getHeader(JdbcConstants.JDBC_GENERATED_KEYS_DATA));
-        assertNotNull(out.getOut().getHeader(JdbcConstants.JDBC_GENERATED_KEYS_ROW_COUNT));
+        assertNotNull(out.getOut().getHeader(CassandraConstants.JDBC_GENERATED_KEYS_DATA));
+        assertNotNull(out.getOut().getHeader(CassandraConstants.JDBC_GENERATED_KEYS_ROW_COUNT));
 
-        List<Map<String, Object>> generatedKeys = out.getOut().getHeader(JdbcConstants.JDBC_GENERATED_KEYS_DATA, List.class);
+        List<Map<String, Object>> generatedKeys = out.getOut().getHeader(CassandraConstants.JDBC_GENERATED_KEYS_DATA, List.class);
         assertNotNull("out body could not be converted to an ArrayList - was: "
                 + out.getOut().getBody(), generatedKeys);
         assertEquals(1, generatedKeys.size());
@@ -55,7 +55,7 @@ public class JdbcGeneratedKeysTest extends JdbcRouteTest {
         Map<String, Object> row = generatedKeys.get(0);
         assertEquals("auto increment value should be 2", BigDecimal.valueOf(2), row.get("1"));
 
-        assertEquals("generated keys row count should be one", 1, out.getOut().getHeader(JdbcConstants.JDBC_GENERATED_KEYS_ROW_COUNT));
+        assertEquals("generated keys row count should be one", 1, out.getOut().getHeader(CassandraConstants.JDBC_GENERATED_KEYS_ROW_COUNT));
     }
 
     @Test
@@ -67,8 +67,8 @@ public class JdbcGeneratedKeysTest extends JdbcRouteTest {
         Exchange exchange = endpoint.createExchange();
         // then we set the SQL on the in body
         exchange.getIn().setBody("insert into tableWithAutoIncr (content) values ('value2')");
-        exchange.getIn().setHeader(JdbcConstants.JDBC_RETRIEVE_GENERATED_KEYS, true);
-        exchange.getIn().setHeader(JdbcConstants.JDBC_GENERATED_COLUMNS, new String[]{"ID"});
+        exchange.getIn().setHeader(CassandraConstants.JDBC_RETRIEVE_GENERATED_KEYS, true);
+        exchange.getIn().setHeader(CassandraConstants.JDBC_GENERATED_COLUMNS, new String[]{"ID"});
 
         // now we send the exchange to the endpoint, and receives the response from Camel
         Exchange out = template.send(endpoint, exchange);
@@ -76,10 +76,10 @@ public class JdbcGeneratedKeysTest extends JdbcRouteTest {
         // assertions of the response
         assertNotNull(out);
         assertNotNull(out.getOut());
-        assertNotNull(out.getOut().getHeader(JdbcConstants.JDBC_GENERATED_KEYS_DATA));
-        assertNotNull(out.getOut().getHeader(JdbcConstants.JDBC_GENERATED_KEYS_ROW_COUNT));
+        assertNotNull(out.getOut().getHeader(CassandraConstants.JDBC_GENERATED_KEYS_DATA));
+        assertNotNull(out.getOut().getHeader(CassandraConstants.JDBC_GENERATED_KEYS_ROW_COUNT));
 
-        List<Map<String, Object>> generatedKeys = out.getOut().getHeader(JdbcConstants.JDBC_GENERATED_KEYS_DATA, List.class);
+        List<Map<String, Object>> generatedKeys = out.getOut().getHeader(CassandraConstants.JDBC_GENERATED_KEYS_DATA, List.class);
         assertNotNull("out body could not be converted to an ArrayList - was: "
                 + out.getOut().getBody(), generatedKeys);
         assertEquals(1, generatedKeys.size());
@@ -87,7 +87,7 @@ public class JdbcGeneratedKeysTest extends JdbcRouteTest {
         Map<String, Object> row = generatedKeys.get(0);
         assertEquals("auto increment value should be 2", BigDecimal.valueOf(2), row.get("1"));
 
-        assertEquals("generated keys row count should be one", 1, out.getOut().getHeader(JdbcConstants.JDBC_GENERATED_KEYS_ROW_COUNT));
+        assertEquals("generated keys row count should be one", 1, out.getOut().getHeader(CassandraConstants.JDBC_GENERATED_KEYS_ROW_COUNT));
     }
 
     @Test
@@ -99,8 +99,8 @@ public class JdbcGeneratedKeysTest extends JdbcRouteTest {
         Exchange exchange = endpoint.createExchange();
         // then we set the SQL on the in body
         exchange.getIn().setBody("insert into tableWithAutoIncr (content) values ('value2')");
-        exchange.getIn().setHeader(JdbcConstants.JDBC_RETRIEVE_GENERATED_KEYS, true);
-        exchange.getIn().setHeader(JdbcConstants.JDBC_GENERATED_COLUMNS, new int[]{1});
+        exchange.getIn().setHeader(CassandraConstants.JDBC_RETRIEVE_GENERATED_KEYS, true);
+        exchange.getIn().setHeader(CassandraConstants.JDBC_GENERATED_COLUMNS, new int[]{1});
 
         // now we send the exchange to the endpoint, and receives the response from Camel
         Exchange out = template.send(endpoint, exchange);
@@ -108,10 +108,10 @@ public class JdbcGeneratedKeysTest extends JdbcRouteTest {
         // assertions of the response
         assertNotNull(out);
         assertNotNull(out.getOut());
-        assertNotNull(out.getOut().getHeader(JdbcConstants.JDBC_GENERATED_KEYS_DATA));
-        assertNotNull(out.getOut().getHeader(JdbcConstants.JDBC_GENERATED_KEYS_ROW_COUNT));
+        assertNotNull(out.getOut().getHeader(CassandraConstants.JDBC_GENERATED_KEYS_DATA));
+        assertNotNull(out.getOut().getHeader(CassandraConstants.JDBC_GENERATED_KEYS_ROW_COUNT));
 
-        List<Map<String, Object>> generatedKeys = out.getOut().getHeader(JdbcConstants.JDBC_GENERATED_KEYS_DATA, List.class);
+        List<Map<String, Object>> generatedKeys = out.getOut().getHeader(CassandraConstants.JDBC_GENERATED_KEYS_DATA, List.class);
         assertNotNull("out body could not be converted to an ArrayList - was: "
                 + out.getOut().getBody(), generatedKeys);
         assertEquals(1, generatedKeys.size());
@@ -119,7 +119,7 @@ public class JdbcGeneratedKeysTest extends JdbcRouteTest {
         Map<String, Object> row = generatedKeys.get(0);
         assertEquals("auto increment value should be 2", BigDecimal.valueOf(2), row.get("1"));
 
-        assertEquals("generated keys row count should be one", 1, out.getOut().getHeader(JdbcConstants.JDBC_GENERATED_KEYS_ROW_COUNT));
+        assertEquals("generated keys row count should be one", 1, out.getOut().getHeader(CassandraConstants.JDBC_GENERATED_KEYS_ROW_COUNT));
     }
 
     @Test
@@ -130,10 +130,10 @@ public class JdbcGeneratedKeysTest extends JdbcRouteTest {
         Exchange exchange = endpoint.createExchange();
         // then we set the SQL on the in body
         exchange.getIn().setBody("insert into tableWithAutoIncr (content) values ('value2')");
-        exchange.getIn().setHeader(JdbcConstants.JDBC_RETRIEVE_GENERATED_KEYS, true);
+        exchange.getIn().setHeader(CassandraConstants.JDBC_RETRIEVE_GENERATED_KEYS, true);
 
         // set wrong data type for generated columns
-        exchange.getIn().setHeader(JdbcConstants.JDBC_GENERATED_COLUMNS, new Object[]{});
+        exchange.getIn().setHeader(CassandraConstants.JDBC_GENERATED_COLUMNS, new Object[]{});
 
         // now we send the exchange to the endpoint, and receives the response from Camel
         template.send(endpoint, exchange);

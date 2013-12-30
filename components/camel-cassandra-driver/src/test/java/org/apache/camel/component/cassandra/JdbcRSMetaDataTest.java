@@ -46,7 +46,7 @@ public class JdbcRSMetaDataTest extends AbstractJdbcTestSupport {
         assertEquals("cust1", row.get("ID"));
         assertEquals("jstrachan", row.get("NAME"));
 
-        Set<String> columnNames = (Set<String>) out.getOut().getHeader(JdbcConstants.JDBC_COLUMN_NAMES);
+        Set<String> columnNames = (Set<String>) out.getOut().getHeader(CassandraConstants.JDBC_COLUMN_NAMES);
         assertNotNull(columnNames);
         assertEquals(2, columnNames.size());
         assertTrue(columnNames.contains("ID"));

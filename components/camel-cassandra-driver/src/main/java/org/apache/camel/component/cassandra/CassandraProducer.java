@@ -141,7 +141,7 @@ public class CassandraProducer extends DefaultProducer {
                 setResultSet(exchange, rs);
             } else {
                 int updateCount = ps.getUpdateCount();
-                exchange.getOut().setHeader(JdbcConstants.JDBC_UPDATE_COUNT, updateCount);
+                exchange.getOut().setHeader(CassandraConstants.JDBC_UPDATE_COUNT, updateCount);
             }
         } finally {
             closeQuietly(rs);
@@ -163,11 +163,11 @@ public class CassandraProducer extends DefaultProducer {
             LOG.debug("Executing JDBC Statement: {}", sql);
 
             Boolean shouldRetrieveGeneratedKeys =
-                    exchange.getIn().getHeader(JdbcConstants.JDBC_RETRIEVE_GENERATED_KEYS, false, Boolean.class);
+                    exchange.getIn().getHeader(CassandraConstants.JDBC_RETRIEVE_GENERATED_KEYS, false, Boolean.class);
 
             boolean stmtExecutionResult;
             if (shouldRetrieveGeneratedKeys) {
-                Object expectedGeneratedColumns = exchange.getIn().getHeader(JdbcConstants.JDBC_GENERATED_COLUMNS);
+                Object expectedGeneratedColumns = exchange.getIn().getHeader(CassandraConstants.JDBC_GENERATED_COLUMNS);
                 if (expectedGeneratedColumns == null) {
                     stmtExecutionResult = stmt.execute(sql, Statement.RETURN_GENERATED_KEYS);
                 } else if (expectedGeneratedColumns instanceof String[]) {
@@ -188,7 +188,7 @@ public class CassandraProducer extends DefaultProducer {
                 setResultSet(exchange, rs);
             } else {
                 int updateCount = stmt.getUpdateCount();
-                exchange.getOut().setHeader(JdbcConstants.JDBC_UPDATE_COUNT, updateCount);
+                exchange.getOut().setHeader(CassandraConstants.JDBC_UPDATE_COUNT, updateCount);
             }
 
             if (shouldRetrieveGeneratedKeys) {
@@ -243,8 +243,8 @@ public class CassandraProducer extends DefaultProducer {
 
     /**
      * Sets the generated if any to the Exchange in headers :
-     * - {@link JdbcConstants#JDBC_GENERATED_KEYS_ROW_COUNT} : the row count of generated keys
-     * - {@link JdbcConstants#JDBC_GENERATED_KEYS_DATA} : the generated keys data
+     * - {@link CassandraConstants#JDBC_GENERATED_KEYS_ROW_COUNT} : the row count of generated keys
+     * - {@link CassandraConstants#JDBC_GENERATED_KEYS_DATA} : the generated keys data
      *
      * @param exchange      The exchange where to store the generated keys
      * @param generatedKeys The result set containing the generated keys
@@ -253,8 +253,8 @@ public class CassandraProducer extends DefaultProducer {
         if (generatedKeys != null) {
             List<Map<String, Object>> data = extractResultSetData(generatedKeys);
 
-            exchange.getOut().setHeader(JdbcConstants.JDBC_GENERATED_KEYS_ROW_COUNT, data.size());
-            exchange.getOut().setHeader(JdbcConstants.JDBC_GENERATED_KEYS_DATA, data);
+            exchange.getOut().setHeader(CassandraConstants.JDBC_GENERATED_KEYS_ROW_COUNT, data.size());
+            exchange.getOut().setHeader(CassandraConstants.JDBC_GENERATED_KEYS_DATA, data);
         }
     }
 
@@ -266,9 +266,9 @@ public class CassandraProducer extends DefaultProducer {
 
         if (outputType == JdbcOutputType.SelectList) {
             List<Map<String, Object>> data = extractResultSetData(rs);
-            exchange.getOut().setHeader(JdbcConstants.JDBC_ROW_COUNT, data.size());
+            exchange.getOut().setHeader(CassandraConstants.JDBC_ROW_COUNT, data.size());
             if (!data.isEmpty()) {
-                exchange.getOut().setHeader(JdbcConstants.JDBC_COLUMN_NAMES, data.get(0).keySet());
+                exchange.getOut().setHeader(CassandraConstants.JDBC_COLUMN_NAMES, data.get(0).keySet());
             }
             exchange.getOut().setBody(data);
         } else if (outputType == JdbcOutputType.SelectOne) {

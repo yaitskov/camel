@@ -19,7 +19,7 @@ package org.apache.camel.component.cassandra;
 /**
  * JDBC Constants
  */
-public final class JdbcConstants {
+public final class CassandraConstants {
 
     public static final String JDBC_UPDATE_COUNT = "CamelJdbcUpdateCount";
 
@@ -56,7 +56,7 @@ public final class JdbcConstants {
      */
     public static final String JDBC_GENERATED_KEYS_DATA = "CamelGeneratedKeysRows";
 
-    private JdbcConstants() {
+    private CassandraConstants() {
         // Utility class
     }
 }

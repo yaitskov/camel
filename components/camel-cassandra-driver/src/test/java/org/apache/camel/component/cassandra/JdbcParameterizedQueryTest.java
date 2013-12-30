@@ -78,7 +78,7 @@ public class JdbcParameterizedQueryTest extends AbstractJdbcTestSupport {
         Map<String, Object> headers = new HashMap<String, Object>();
         headers.put("id", "cust2");
         // this header should take precedence so we will not get cust2
-        headers.put(JdbcConstants.JDBC_PARAMETERS, jdbcParams);
+        headers.put(CassandraConstants.JDBC_PARAMETERS, jdbcParams);
 
         template.sendBodyAndHeaders("direct:start", "select * from customer where id = :?id and name = :?name order by ID", headers);
 
@@ -96,7 +96,7 @@ public class JdbcParameterizedQueryTest extends AbstractJdbcTestSupport {
             public void configure() {
                 getContext().setUseBreadcrumb(false);
 
-                getContext().getComponent("cassandra", JdbcComponent.class).setDataSource(db);
+                getContext().getComponent("cassandra", CassandraComponent.class).setDataSource(db);
 
                 from("direct:start")
                         .to("cassandra:testdb?useHeadersAsParameters=true")

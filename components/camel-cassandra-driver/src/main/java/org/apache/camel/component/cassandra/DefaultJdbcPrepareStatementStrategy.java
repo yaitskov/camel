@@ -55,9 +55,9 @@ public class DefaultJdbcPrepareStatementStrategy implements JdbcPrepareStatement
                                               final Exchange exchange, final Object value) throws SQLException {
         Map<?, ?> map = null;
         if (exchange.getIn().hasHeaders()) {
-            if (exchange.getIn().getHeader(JdbcConstants.JDBC_PARAMETERS) != null) {
+            if (exchange.getIn().getHeader(CassandraConstants.JDBC_PARAMETERS) != null) {
                 // header JDBC_PARAMETERS takes precedence over regular headers
-                map = exchange.getIn().getHeader(JdbcConstants.JDBC_PARAMETERS, Map.class);
+                map = exchange.getIn().getHeader(CassandraConstants.JDBC_PARAMETERS, Map.class);
             } else {
                 map = exchange.getIn().getHeaders();
             }

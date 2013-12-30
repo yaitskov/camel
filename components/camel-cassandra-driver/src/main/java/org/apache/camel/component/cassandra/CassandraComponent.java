@@ -28,13 +28,13 @@ import org.apache.camel.util.IntrospectionSupport;
 /**
  * @version
  */
-public class JdbcComponent extends DefaultComponent {
+public class CassandraComponent extends DefaultComponent {
     private DataSource ds;
 
-    public JdbcComponent() {
+    public CassandraComponent() {
     }
 
-    public JdbcComponent(CamelContext context) {
+    public CassandraComponent(CamelContext context) {
         super(context);
     }
 
