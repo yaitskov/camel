@@ -40,13 +40,13 @@ import org.slf4j.LoggerFactory;
 /**
  * @version
  */
-public class JdbcProducer extends DefaultProducer {
-    private static final Logger LOG = LoggerFactory.getLogger(JdbcProducer.class);
+public class CassandraProducer extends DefaultProducer {
+    private static final Logger LOG = LoggerFactory.getLogger(CassandraProducer.class);
     private DataSource dataSource;
     private int readSize;
     private Map<String, Object> parameters;
 
-    public JdbcProducer(CassandraEndpoint endpoint, DataSource dataSource, int readSize, Map<String, Object> parameters) throws Exception {
+    public CassandraProducer(CassandraEndpoint endpoint, DataSource dataSource, int readSize, Map<String, Object> parameters) throws Exception {
         super(endpoint);
         this.dataSource = dataSource;
         this.readSize = readSize;

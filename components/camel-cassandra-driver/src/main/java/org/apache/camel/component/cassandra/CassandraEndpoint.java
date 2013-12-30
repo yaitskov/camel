@@ -60,7 +60,7 @@ public class CassandraEndpoint extends DefaultEndpoint {
     }
 
     public Producer createProducer() throws Exception {
-        return new JdbcProducer(this, dataSource, readSize, parameters);
+        return new CassandraProducer(this, dataSource, readSize, parameters);
     }
 
     public int getReadSize() {
