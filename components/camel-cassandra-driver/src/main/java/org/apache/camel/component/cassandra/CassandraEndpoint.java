@@ -36,10 +36,10 @@ public class CassandraEndpoint extends DefaultEndpoint {
     private DataSource dataSource;
     private Map<String, Object> parameters;
     private boolean useJDBC4ColumnNameAndLabelSemantics = true;
-    private JdbcPrepareStatementStrategy prepareStatementStrategy = new DefaultJdbcPrepareStatementStrategy();
+    private CassandraPrepareStatementStrategy prepareStatementStrategy = new DefaultCassandraPrepareStatementStrategy();
     private boolean allowNamedParameters = true;
     private boolean useHeadersAsParameters;
-    private JdbcOutputType outputType = JdbcOutputType.SelectList;
+    private CassandraOutputType outputType = CassandraOutputType.SelectList;
     private String outputClass;
     private BeanRowMapper beanRowMapper = new DefaultBeanRowMapper();
 
@@ -130,11 +130,11 @@ public class CassandraEndpoint extends DefaultEndpoint {
         this.useJDBC4ColumnNameAndLabelSemantics = useJDBC4ColumnNameAndLabelSemantics;
     }
 
-    public JdbcPrepareStatementStrategy getPrepareStatementStrategy() {
+    public CassandraPrepareStatementStrategy getPrepareStatementStrategy() {
         return prepareStatementStrategy;
     }
 
-    public void setPrepareStatementStrategy(JdbcPrepareStatementStrategy prepareStatementStrategy) {
+    public void setPrepareStatementStrategy(CassandraPrepareStatementStrategy prepareStatementStrategy) {
         this.prepareStatementStrategy = prepareStatementStrategy;
     }
 
@@ -154,11 +154,11 @@ public class CassandraEndpoint extends DefaultEndpoint {
         this.useHeadersAsParameters = useHeadersAsParameters;
     }
 
-    public JdbcOutputType getOutputType() {
+    public CassandraOutputType getOutputType() {
         return outputType;
     }
 
-    public void setOutputType(JdbcOutputType outputType) {
+    public void setOutputType(CassandraOutputType outputType) {
         this.outputType = outputType;
     }
 

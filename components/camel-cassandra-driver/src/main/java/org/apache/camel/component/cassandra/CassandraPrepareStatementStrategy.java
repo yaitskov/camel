@@ -25,7 +25,7 @@ import org.apache.camel.Exchange;
 /**
  * Strategy for preparing statements when executing SQL queries.
  */
-public interface JdbcPrepareStatementStrategy {
+public interface CassandraPrepareStatementStrategy {
 
     /**
      * Prepares the query to be executed.

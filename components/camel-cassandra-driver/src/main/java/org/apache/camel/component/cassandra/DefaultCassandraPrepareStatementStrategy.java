@@ -29,12 +29,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Default {@link JdbcPrepareStatementStrategy} which is a copy from the camel-sql component having
+ * Default {@link CassandraPrepareStatementStrategy} which is a copy from the camel-sql component having
  * this functionality first.
  */
-public class DefaultJdbcPrepareStatementStrategy implements JdbcPrepareStatementStrategy {
+public class DefaultCassandraPrepareStatementStrategy implements CassandraPrepareStatementStrategy {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultJdbcPrepareStatementStrategy.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultCassandraPrepareStatementStrategy.class);
 
     @Override
     public String prepareQuery(String query, boolean allowNamedParameters) throws SQLException {

@@ -16,6 +16,6 @@
  */
 package org.apache.camel.component.cassandra;
 
-public enum JdbcOutputType {
+public enum CassandraOutputType {
     SelectOne, SelectList
 }

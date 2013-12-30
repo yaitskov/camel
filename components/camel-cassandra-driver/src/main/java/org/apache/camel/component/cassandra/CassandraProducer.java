@@ -262,16 +262,16 @@ public class CassandraProducer extends DefaultProducer {
      * Sets the result from the ResultSet to the Exchange as its OUT body.
      */
     protected void setResultSet(Exchange exchange, ResultSet rs) throws SQLException {
-        JdbcOutputType outputType = getEndpoint().getOutputType();
+        CassandraOutputType outputType = getEndpoint().getOutputType();
 
-        if (outputType == JdbcOutputType.SelectList) {
+        if (outputType == CassandraOutputType.SelectList) {
             List<Map<String, Object>> data = extractResultSetData(rs);
             exchange.getOut().setHeader(CassandraConstants.JDBC_ROW_COUNT, data.size());
             if (!data.isEmpty()) {
                 exchange.getOut().setHeader(CassandraConstants.JDBC_COLUMN_NAMES, data.get(0).keySet());
             }
             exchange.getOut().setBody(data);
-        } else if (outputType == JdbcOutputType.SelectOne) {
+        } else if (outputType == CassandraOutputType.SelectOne) {
             Object obj = queryForObject(rs);
             exchange.getOut().setBody(obj);
         }
