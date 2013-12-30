@@ -14,21 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
+package org.apache.camel.component.cassandra;
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.junit.Test;
 
-public class JdbcTransformSimpleTest extends AbstractJdbcTestSupport {
+public class JdbcRouteSplitTest extends AbstractJdbcTestSupport {
     
     @EndpointInject(uri = "mock:result")
     private MockEndpoint mock;
 
     @Test
     public void testJdbcRoutes() throws Exception {
-        mock.expectedBodiesReceived("jstrachan");
+        mock.expectedMessageCount(3);
 
         template.sendBody("direct:hello", "select * from customer order by ID");
 
@@ -40,11 +40,13 @@ public class JdbcTransformSimpleTest extends AbstractJdbcTestSupport {
         return new RouteBuilder() {
             @Override
             public void configure() throws Exception {
+                // START SNIPPET: e1
                 from("direct:hello")
-                    .to("jdbc:testdb")
-                    // grab the first row, and the name column
-                    .transform().simple("${body[0]['NAME']}")
-                    .to("mock:result");
+                        // here we split the data from the testdb into new messages one by one
+                        // so the mock endpoint will receive a message per row in the table
+                    .to("cassandra:testdb").split(body()).to("mock:result");
+
+                // END SNIPPET: e1
             }
         };
     }

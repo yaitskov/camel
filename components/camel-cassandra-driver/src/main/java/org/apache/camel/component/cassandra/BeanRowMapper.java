@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
+package org.apache.camel.component.cassandra;
 
 /**
  * A mapper to map row names to java bean setter names, when using the <tt>outputClass</tt> option.

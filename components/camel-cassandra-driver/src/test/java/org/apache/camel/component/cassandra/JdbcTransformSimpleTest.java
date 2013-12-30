@@ -14,47 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
-
-import java.util.List;
-import java.util.Map;
+package org.apache.camel.component.cassandra;
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.junit.Test;
 
-public class JdbcProducerOutputTypeSelectListTest extends AbstractJdbcTestSupport {
-
+public class JdbcTransformSimpleTest extends AbstractJdbcTestSupport {
+    
     @EndpointInject(uri = "mock:result")
     private MockEndpoint mock;
 
-    @SuppressWarnings({"unchecked"})
     @Test
-    public void testOutputTypeSelectList() throws Exception {
-        mock.expectedMessageCount(1);
+    public void testJdbcRoutes() throws Exception {
+        mock.expectedBodiesReceived("jstrachan");
 
-        template.sendBody("direct:start", "select * from customer");
+        template.sendBody("direct:hello", "select * from customer order by ID");
 
         assertMockEndpointsSatisfied();
-
-        List<?> received = assertIsInstanceOf(List.class, mock.getReceivedExchanges().get(0).getIn().getBody());
-        assertEquals(3, received.size());
-
-        Map<String, Object> row = assertIsInstanceOf(Map.class, received.get(0));
-        assertEquals("cust1", row.get("ID"));
-        assertEquals("jstrachan", row.get("NAME"));
-
-        row = assertIsInstanceOf(Map.class, received.get(1));
-        assertEquals("cust2", row.get("ID"));
-        assertEquals("nsandhu", row.get("NAME"));
     }
 
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
+            @Override
             public void configure() throws Exception {
-                from("direct:start").to("jdbc:testdb?outputType=SelectList").to("mock:result");
+                from("direct:hello")
+                    .to("cassandra:testdb")
+                    // grab the first row, and the name column
+                    .transform().simple("${body[0]['NAME']}")
+                    .to("mock:result");
             }
         };
     }

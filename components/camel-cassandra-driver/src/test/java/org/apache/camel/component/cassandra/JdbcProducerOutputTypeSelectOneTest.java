@@ -14,37 +14,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
+package org.apache.camel.component.cassandra;
+
+import java.util.Map;
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.junit.Test;
 
-public class JdbcProducerOutputTypeSelectOneOutputClassTest extends AbstractJdbcTestSupport {
+public class JdbcProducerOutputTypeSelectOneTest extends AbstractJdbcTestSupport {
 
     @EndpointInject(uri = "mock:result")
     private MockEndpoint mock;
 
     @SuppressWarnings({"unchecked"})
     @Test
-    public void testOutputTypeSelectOneOutputClass() throws Exception {
+    public void testOutputTypeSelectOne() throws Exception {
         mock.expectedMessageCount(1);
 
         template.sendBody("direct:start", "select * from customer where ID = 'cust1'");
 
         assertMockEndpointsSatisfied();
 
-        CustomerModel model = assertIsInstanceOf(CustomerModel.class, mock.getReceivedExchanges().get(0).getIn().getBody(CustomerModel.class));
-        assertEquals("cust1", model.getId());
-        assertEquals("jstrachan", model.getName());
+        Map row = assertIsInstanceOf(Map.class, mock.getReceivedExchanges().get(0).getIn().getBody(Map.class));
+        assertEquals("cust1", row.get("ID"));
+        assertEquals("jstrachan", row.get("NAME"));
     }
 
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
             public void configure() throws Exception {
-                from("direct:start").to("jdbc:testdb?outputType=SelectOne&outputClass=org.apache.camel.component.jdbc.CustomerModel").to("mock:result");
+                from("direct:start").to("cassandra:testdb?outputType=SelectOne").to("mock:result");
             }
         };
     }

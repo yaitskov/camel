@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
+package org.apache.camel.component.cassandra;
 
 import java.util.Map;
 
@@ -180,6 +180,6 @@ public class CassandraEndpoint extends DefaultEndpoint {
 
     @Override
     protected String createEndpointUri() {
-        return "jdbc";
+        return "cassandra";
     }
 }

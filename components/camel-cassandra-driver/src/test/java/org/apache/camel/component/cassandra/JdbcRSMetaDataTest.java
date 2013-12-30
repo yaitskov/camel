@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
+package org.apache.camel.component.cassandra;
 
 import java.util.List;
 import java.util.Map;
@@ -58,7 +58,7 @@ public class JdbcRSMetaDataTest extends AbstractJdbcTestSupport {
         return new RouteBuilder() {
             @Override
             public void configure() throws Exception {
-                from("direct:hello").to("jdbc:testdb?readSize=100");
+                from("direct:hello").to("cassandra:testdb?readSize=100");
             }
         };
     }

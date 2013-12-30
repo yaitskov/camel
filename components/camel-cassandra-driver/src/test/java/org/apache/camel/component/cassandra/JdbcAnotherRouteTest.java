@@ -14,17 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
+package org.apache.camel.component.cassandra;
 
+import org.apache.camel.EndpointInject;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.mock.MockEndpoint;
+import org.junit.Test;
 
-public class JdbcRouteUsingSqlSelectAliasJdbc3Test extends JdbcRouteUsingSqlSelectAliasTest {
+/**
+ * Unit test based on user forum request about this component
+ */
+public class JdbcAnotherRouteTest extends AbstractJdbcTestSupport {
+
+    @EndpointInject(uri = "mock:result")
+    private MockEndpoint mock;
+    
+    @Test
+    public void testTimerInvoked() throws Exception {
+        mock.expectedMinimumMessageCount(1);
+
+        assertMockEndpointsSatisfied();
+    }
 
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
             public void configure() throws Exception {
-                from("direct:hello").to("jdbc:testdb?readSize=100&useJDBC4ColumnNameAndLabelSemantics=false");
+                // trigger every second
+                from("timer://kickoff?period=1s").
+                    setBody(constant("select * from customer")).
+                    to("cassandra:testdb").
+                    to("mock:result");
             }
         };
     }

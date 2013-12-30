@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
+package org.apache.camel.component.cassandra;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,14 @@ import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.junit.Test;
 
-public class JdbcRouteUsingSqlSelectAliasTest extends AbstractJdbcTestSupport {
+/**
+ * Is used as base class for testing the cassandra component.
+ * <p><b>Don't</b> add new test methods; it's likely to break the sub-classes.
+ * <p>Sub-classes should override {@link #testJdbcRoutes()} unless they create routes that
+ * are semantically equivalent to what this class creates.
+ * @version 
+ */
+public class JdbcRouteTest extends AbstractJdbcTestSupport {
 
     @SuppressWarnings("unchecked")
     @Test
@@ -34,7 +41,7 @@ public class JdbcRouteUsingSqlSelectAliasTest extends AbstractJdbcTestSupport {
         Endpoint endpoint = context.getEndpoint("direct:hello");
         Exchange exchange = endpoint.createExchange();
         // then we set the SQL on the in body
-        exchange.getIn().setBody("select id as identifier, name from customer order by ID");
+        exchange.getIn().setBody("select * from customer order by ID");
 
         // now we send the exchange to the endpoint, and receives the response from Camel
         Exchange out = template.send(endpoint, exchange);
@@ -43,24 +50,24 @@ public class JdbcRouteUsingSqlSelectAliasTest extends AbstractJdbcTestSupport {
         assertNotNull(out);
         assertNotNull(out.getOut());
         List<Map<String, Object>> data = out.getOut().getBody(List.class);
-        assertNotNull("out body could not be converted to a List - was: "
-            + out.getOut().getBody(), data);
+        assertNotNull(data);
         assertEquals(3, data.size());
         Map<String, Object> row = data.get(0);
-        assertEquals("cust1", row.get("IDENTIFIER"));
+        assertEquals("cust1", row.get("ID"));
         assertEquals("jstrachan", row.get("NAME"));
         row = data.get(1);
-        assertEquals("cust2", row.get("IDENTIFIER"));
+        assertEquals("cust2", row.get("ID"));
         assertEquals("nsandhu", row.get("NAME"));
         // END SNIPPET: invoke
     }
 
+    @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
             // START SNIPPET: route
             // lets add simple route
             public void configure() throws Exception {
-                from("direct:hello").to("jdbc:testdb?readSize=100");
+                from("direct:hello").to("cassandra:testdb?readSize=100");
             }
             // END SNIPPET: route
         };

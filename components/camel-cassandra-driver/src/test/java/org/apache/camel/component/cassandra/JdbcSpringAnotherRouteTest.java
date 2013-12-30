@@ -14,18 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
+package org.apache.camel.component.cassandra;
 
 import org.apache.camel.EndpointInject;
-import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
+import org.apache.camel.test.spring.CamelSpringTestSupport;
 import org.junit.Test;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * Unit test based on user forum request about this component
- */
-public class JdbcAnotherRouteTest extends AbstractJdbcTestSupport {
-
+public class JdbcSpringAnotherRouteTest extends CamelSpringTestSupport {
+    
     @EndpointInject(uri = "mock:result")
     private MockEndpoint mock;
     
@@ -37,15 +36,7 @@ public class JdbcAnotherRouteTest extends AbstractJdbcTestSupport {
     }
 
     @Override
-    protected RouteBuilder createRouteBuilder() throws Exception {
-        return new RouteBuilder() {
-            public void configure() throws Exception {
-                // trigger every second
-                from("timer://kickoff?period=1s").
-                    setBody(constant("select * from customer")).
-                    to("jdbc:testdb").
-                    to("mock:result");
-            }
-        };
+    protected AbstractApplicationContext createApplicationContext() {
+        return new ClassPathXmlApplicationContext("org/apache/camel/component/jdbc/camelContext.xml");
     }
 }

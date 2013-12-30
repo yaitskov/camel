@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
+package org.apache.camel.component.cassandra;
 
 import java.util.HashMap;
 import java.util.List;
@@ -82,7 +82,7 @@ public class JdbcProducerConcurrenctTest extends AbstractJdbcTestSupport {
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
             public void configure() throws Exception {
-                from("direct:start").to("jdbc:testdb").to("mock:result");
+                from("direct:start").to("cassandra:testdb").to("mock:result");
             }
         };
     }

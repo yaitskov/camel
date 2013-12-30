@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
+package org.apache.camel.component.cassandra;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class JdbcStatementParametersTest extends AbstractJdbcTestSupport {
     @SuppressWarnings("rawtypes")
     @Test
     public void testMax5Rows() throws Exception {
-        List rows = template.requestBody("jdbc:testdb?statement.maxRows=5&statement.fetchSize=50", "select * from customer order by id", List.class);
+        List rows = template.requestBody("cassandra:testdb?statement.maxRows=5&statement.fetchSize=50", "select * from customer order by id", List.class);
 
         assertEquals(3, rows.size());
         assertEquals(3, context.getEndpoints().size());
@@ -44,7 +44,7 @@ public class JdbcStatementParametersTest extends AbstractJdbcTestSupport {
     @SuppressWarnings("rawtypes")
     @Test
     public void testNoParameters() throws Exception {
-        List rows = template.requestBody("jdbc:testdb", "select * from customer order by id", List.class);
+        List rows = template.requestBody("cassandra:testdb", "select * from customer order by id", List.class);
 
         assertEquals(3, rows.size());
         assertEquals(3, context.getEndpoints().size());
@@ -54,7 +54,7 @@ public class JdbcStatementParametersTest extends AbstractJdbcTestSupport {
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
             public void configure() throws Exception {
-                from("direct:hello").to("jdbc:testdb?statement.maxRows=2");
+                from("direct:hello").to("cassandra:testdb?statement.maxRows=2");
             }
         };
     }

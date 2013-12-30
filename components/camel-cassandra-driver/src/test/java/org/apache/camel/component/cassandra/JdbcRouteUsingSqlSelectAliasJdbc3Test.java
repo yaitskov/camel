@@ -14,8 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
+package org.apache.camel.component.cassandra;
 
-public enum JdbcOutputType {
-    SelectOne, SelectList
+import org.apache.camel.builder.RouteBuilder;
+
+public class JdbcRouteUsingSqlSelectAliasJdbc3Test extends JdbcRouteUsingSqlSelectAliasTest {
+
+    @Override
+    protected RouteBuilder createRouteBuilder() throws Exception {
+        return new RouteBuilder() {
+            public void configure() throws Exception {
+                from("direct:hello").to("cassandra:testdb?readSize=100&useJDBC4ColumnNameAndLabelSemantics=false");
+            }
+        };
+    }
 }

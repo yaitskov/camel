@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
+package org.apache.camel.component.cassandra;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -96,10 +96,10 @@ public class JdbcParameterizedQueryTest extends AbstractJdbcTestSupport {
             public void configure() {
                 getContext().setUseBreadcrumb(false);
 
-                getContext().getComponent("jdbc", JdbcComponent.class).setDataSource(db);
+                getContext().getComponent("cassandra", JdbcComponent.class).setDataSource(db);
 
                 from("direct:start")
-                        .to("jdbc:testdb?useHeadersAsParameters=true")
+                        .to("cassandra:testdb?useHeadersAsParameters=true")
                         .to("mock:result");
             }
         };

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
+package org.apache.camel.component.cassandra;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -74,7 +74,7 @@ public class JdbcOptionsTest extends AbstractJdbcTestSupport {
     @Test
     public void testNoDataSourceInRegistry() throws Exception {
         try {
-            template.sendBody("jdbc:xxx", "Hello World");
+            template.sendBody("cassandra:xxx", "Hello World");
             fail("Should have thrown a ResolveEndpointFailedException");
         } catch (ResolveEndpointFailedException e) {
             assertEquals("No bean could be found in the registry for: xxx of type: javax.sql.DataSource",
@@ -99,9 +99,9 @@ public class JdbcOptionsTest extends AbstractJdbcTestSupport {
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
             public void configure() throws Exception {
-                from("direct:start").to("jdbc:testdb?readSize=1").to("mock:result");
-                from("direct:retrieve").to("jdbc:testdb").to("mock:retrieve");
-                from("direct:startTx").to("jdbc:testdb?transacted=true").to("mock:resultTx");
+                from("direct:start").to("cassandra:testdb?readSize=1").to("mock:result");
+                from("direct:retrieve").to("cassandra:testdb").to("mock:retrieve");
+                from("direct:startTx").to("cassandra:testdb?transacted=true").to("mock:resultTx");
             }
         };
     }

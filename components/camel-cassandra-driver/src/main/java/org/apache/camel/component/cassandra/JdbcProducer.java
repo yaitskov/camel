@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
+package org.apache.camel.component.cassandra;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -91,7 +91,7 @@ public class JdbcProducer extends DefaultProducer {
                     conn.rollback();
                 }
             } catch (SQLException sqle) {
-                LOG.warn("Error occurred during jdbc rollback. This exception will be ignored.", sqle);
+                LOG.warn("Error occurred during cassandra rollback. This exception will be ignored.", sqle);
             }
             throw e;
         } finally {
@@ -299,10 +299,10 @@ public class JdbcProducer extends DefaultProducer {
                 // use column label to get the name as it also handled SQL SELECT aliases
                 String columnName;
                 if (jdbc4) {
-                    // jdbc 4 should use label to get the name
+                    // cassandra 4 should use label to get the name
                     columnName = meta.getColumnLabel(columnNumber);
                 } else {
-                    // jdbc 3 uses the label or name to get the name
+                    // cassandra 3 uses the label or name to get the name
                     try {
                         columnName = meta.getColumnLabel(columnNumber);
                     } catch (SQLException e) {

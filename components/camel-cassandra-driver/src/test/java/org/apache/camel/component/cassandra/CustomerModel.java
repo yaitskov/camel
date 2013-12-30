@@ -14,23 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.camel.component.jdbc;
+package org.apache.camel.component.cassandra;
 
-import org.apache.camel.builder.RouteBuilder;
+public class CustomerModel {
 
-public class CassandraEndpointTest extends JdbcRouteTest {
+    private String id;
+    private String name;
 
-    @Override
-    protected RouteBuilder createRouteBuilder() throws Exception {
-        return new RouteBuilder() {
-            public void configure() throws Exception {
-                CassandraEndpoint jdbc = new CassandraEndpoint();
-                jdbc.setCamelContext(context);
-                jdbc.setDataSource(db);
-                context.addEndpoint("foo", jdbc);
+    public String getId() {
+        return id;
+    }
 
-                from("direct:hello").to("foo");
-            }
-        };
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
