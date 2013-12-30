@@ -29,7 +29,7 @@ import org.apache.camel.impl.DefaultEndpoint;
 /**
  * @version
  */
-public class JdbcEndpoint extends DefaultEndpoint {
+public class CassandraEndpoint extends DefaultEndpoint {
     private int readSize;
     private boolean transacted;
     private boolean resetAutoCommit = true;
@@ -43,10 +43,10 @@ public class JdbcEndpoint extends DefaultEndpoint {
     private String outputClass;
     private BeanRowMapper beanRowMapper = new DefaultBeanRowMapper();
 
-    public JdbcEndpoint() {
+    public CassandraEndpoint() {
     }
 
-    public JdbcEndpoint(String endpointUri, Component component, DataSource dataSource) {
+    public CassandraEndpoint(String endpointUri, Component component, DataSource dataSource) {
         super(endpointUri, component);
         this.dataSource = dataSource;
     }

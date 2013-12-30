@@ -51,7 +51,7 @@ public class JdbcComponent extends DefaultComponent {
 
         Map<String, Object> params = IntrospectionSupport.extractProperties(parameters, "statement.");
 
-        JdbcEndpoint jdbc = new JdbcEndpoint(uri, this, dataSource);
+        CassandraEndpoint jdbc = new CassandraEndpoint(uri, this, dataSource);
         jdbc.setParameters(params);
         setProperties(jdbc, parameters);
 

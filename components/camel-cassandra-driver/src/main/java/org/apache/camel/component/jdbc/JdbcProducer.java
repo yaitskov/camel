@@ -46,7 +46,7 @@ public class JdbcProducer extends DefaultProducer {
     private int readSize;
     private Map<String, Object> parameters;
 
-    public JdbcProducer(JdbcEndpoint endpoint, DataSource dataSource, int readSize, Map<String, Object> parameters) throws Exception {
+    public JdbcProducer(CassandraEndpoint endpoint, DataSource dataSource, int readSize, Map<String, Object> parameters) throws Exception {
         super(endpoint);
         this.dataSource = dataSource;
         this.readSize = readSize;
@@ -54,8 +54,8 @@ public class JdbcProducer extends DefaultProducer {
     }
 
     @Override
-    public JdbcEndpoint getEndpoint() {
-        return (JdbcEndpoint) super.getEndpoint();
+    public CassandraEndpoint getEndpoint() {
+        return (CassandraEndpoint) super.getEndpoint();
     }
 
     /**

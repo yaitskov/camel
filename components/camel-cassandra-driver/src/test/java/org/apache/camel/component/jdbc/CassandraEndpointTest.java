@@ -18,13 +18,13 @@ package org.apache.camel.component.jdbc;
 
 import org.apache.camel.builder.RouteBuilder;
 
-public class JdbcEndpointTest extends JdbcRouteTest {
+public class CassandraEndpointTest extends JdbcRouteTest {
 
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
             public void configure() throws Exception {
-                JdbcEndpoint jdbc = new JdbcEndpoint();
+                CassandraEndpoint jdbc = new CassandraEndpoint();
                 jdbc.setCamelContext(context);
                 jdbc.setDataSource(db);
                 context.addEndpoint("foo", jdbc);
